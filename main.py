@@ -185,7 +185,22 @@ class App():
                                     index_y = self.row_dimension.index(row)
                                     break
                             if position_x != 0 and position_y != 0 and self.sun_counter >= card.price and self.garden_matrix[index_y][index_x] != 1 and card.name != "lilypad":
+                                zero, pos_aux_y = False, 0
+                                if index_y == 0 and self.garden_matrix[index_y+1][index_x] == 0:
+                                    zero = True
+                                    pos_aux_y = index_y + 1
+                                if index_y == 1 and self.garden_matrix[index_y-1][index_x] == 0:
+                                    zero = True
+                                    pos_aux_y = index_y - 1
+                                if index_y == 5 and self.garden_matrix[index_y-1][index_x] == 0:
+                                    zero = True
+                                    pos_aux_y = index_y - 1
+                                if index_y == 4 and self.garden_matrix[index_y+1][index_x] == 0:
+                                    zero = True
+                                    pos_aux_y = index_y + 1
                                 self.garden_matrix[index_y][index_x] = 1
+                                if zero:
+                                    self.garden_matrix[pos_aux_y][index_x] = 0
                                 card.add_plant(self.plants, self.sprites, (position_x, position_y), self.screen_width, self.screen_height, (index_x, index_y))
                                 self.sun_counter -= card.price
                             elif position_x != 0 and position_y != 0 and self.sun_counter >= card.price and self.garden_matrix[index_y][index_x] == 1 and card.name == "lilypad" and (index_y >=2 or index_y <=3):
