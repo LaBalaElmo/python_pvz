@@ -52,6 +52,7 @@ class App():
         self.SUN_EMIT = pygame.USEREVENT + 4
         self.win = False
         self.lose = False
+        self.has_init = False
 
         self.font_win = pygame.font.Font('freesansbold.ttf', 120)
         self.text_win = self.font_win.render("YOU WIN", True, (0, 0, 0))
@@ -60,6 +61,8 @@ class App():
         self.font_lose = pygame.font.Font('freesansbold.ttf', 120)
         self.text_lose = self.font_lose.render("YOU LOSE", True, (0, 0, 0))
         self.textRect_lose = self.text_lose.get_rect(center=(self.screen_width//2, self.screen_height//3))
+        self.init_screen = pygame.image.load("./assets/init_menu.png")
+        self.init_screen = pygame.transform.scale(self.init_screen, (screen_width, screen_height))
 
         self.garden_matrix = [[0]*10]*2 + [[1]*10]*2 + [[0]*10]*2
 
@@ -124,6 +127,8 @@ class App():
         win_button = Button("./assets/exit_button.png", self.screen_width//2, self.screen_height*2//3)
 
         lose_button = Button("./assets/exit_button.png", self.screen_width//2, self.screen_height*2//3)
+
+        play_button = Button("./assets/play_button.png", self.screen_width//2, self.screen_height*2//3)
             
         while self.is_running:
             self.screen.blit(self.bg, (0, 0))
@@ -144,6 +149,11 @@ class App():
                 self.screen.blit(self.text_lose, self.textRect_lose)
                 if lose_button.is_clicked():
                     self.is_running = False
+            elif not self.has_init:
+                self.screen.blit(self.init_screen, (0,0))
+                play_button.draw(self.screen)
+                if play_button.is_clicked():
+                    self.has_init = True
             else :
                 self.update()
                 
